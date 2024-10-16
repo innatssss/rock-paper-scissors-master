@@ -342,3 +342,68 @@ body {
 .hidden {
   display: none;
 }
+
+@media (max-width: 435px) {
+  .choice {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  .game::before {
+    left: 12%;
+    top: 28%;
+  }
+
+  .header {
+    margin: 1rem;
+  }
+
+  .score {
+    width: 100px;
+  }
+
+  .game {
+    width: 100%;
+  }
+
+  .modal__container {
+    width: 350px;
+  }
+
+  .rules-img {
+    padding: 1.5rem;
+  }
+
+  .results.show-winner {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "you-title you-picked"
+      ". result-winner"
+      "ai-title ai-picked";
+  }
+
+  .results__winner {
+    display: grid;
+    grid-area: result-winner;
+    grid-column: 1 / span 2;
+    grid-row: 2 / span 1;
+  }
+
+  .results {
+    width: 350px;
+  }
+
+  .results__text {
+    font-size: 2.5rem;
+    padding: 1rem 0;
+  }
+
+  .results__result {
+    transform: scale(0.9);
+  }
+
+  .results__heading {
+    font-size: 1.5rem;
+    justify-self: start;
+  }
+}

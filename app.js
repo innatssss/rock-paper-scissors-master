@@ -90,6 +90,8 @@ function displayWinner(results) {
     }
     resultWinnar.classList.toggle("hidden");
     resultsDiv.classList.toggle("show-winner");
+
+    playAgainBtn.classList.remove("hidden");
   }, 1000);
 }
 
@@ -100,6 +102,8 @@ function isWinner(results) {
 // play again
 
 playAgainBtn.addEventListener("click", () => {
+  playAgainBtn.classList.add("hidden");
+
   gameDiv.classList.toggle("hidden");
   resultsDiv.classList.toggle("hidden");
 
