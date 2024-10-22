@@ -1,25 +1,13 @@
-//   preload
-setTimeout(() => {
-  document.body.classList.remove("preload");
-}, 500);
 
 const btnRules = document.querySelector(".rules-btn");
 const btnClose = document.querySelector(".close-btn");
 const modalRules = document.querySelector(".modal");
 
+// Constants and choices
 const CHOICES = [
-  {
-    name: "paper",
-    beats: "rock",
-  },
-  {
-    name: "scissors",
-    beats: "paper",
-  },
-  {
-    name: "rock",
-    beats: "scissors",
-  },
+  { name: "paper", beats: "rock" },
+  { name: "scissors", beats: "paper" },
+  { name: "rock", beats: "scissors" },
 ];
 
 const choiceButtons = document.querySelectorAll(".choice-btn");
@@ -27,15 +15,18 @@ const gameDiv = document.querySelector(".game");
 const resultsDiv = document.querySelector(".results");
 const resultDivs = document.querySelectorAll(".results__result");
 
-const resultWinnar = document.querySelector(".results__winner");
+const resultWinner = document.querySelector(".results__winner");
 const resultText = document.querySelector(".results__text");
 
 const playAgainBtn = document.querySelector(".play-again");
 
-const scoreNumber = document.querySelector(".score__number");
-let score = 0;
+const scoreUserNumber = document.querySelector(".you .score__number");
+const scoreComputerNumber = document.querySelector(".computer .score__number");
 
-// game
+let scoreUser = 0; // Score for the user
+let scoreComputer = 0; // Score for the computer
+
+// Game logic
 choiceButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const choiceName = button.dataset.choice;
@@ -46,9 +37,9 @@ choiceButtons.forEach((button) => {
 });
 
 function choose(choice) {
-  const aichoice = aiChoose();
-  displayResults([choice, aichoice]);
-  displayWinner([choice, aichoice]);
+  const aiChoice = aiChoose();
+  displayResults([choice, aiChoice]);
+  displayWinner([choice, aiChoice]);
 }
 
 function aiChoose() {
@@ -61,8 +52,7 @@ function displayResults(results) {
     setTimeout(() => {
       resultsDiv.innerHTML = `
       <div class="choice ${results[idx].name}">
-      <img src="images/icon-${results[idx].name}.svg" alt="${results[idx].name}"
-      />
+      <img src="images/icon-${results[idx].name}.svg" alt="${results[idx].name}" />
       </div>
       `;
     }, idx * 1000);
@@ -78,17 +68,17 @@ function displayWinner(results) {
     const aiWins = isWinner(results.reverse());
 
     if (userWins) {
-      resultText.innerText = "you win";
+      resultText.innerText = "You win!";
       resultDivs[0].classList.toggle("winner");
-      keepScore(1);
+      keepScore("user", 1);
     } else if (aiWins) {
-      resultText.innerText = "you lose";
+      resultText.innerText = "You lose!";
       resultDivs[1].classList.toggle("winner");
-      keepScore(-1);
+      keepScore("computer", 1);
     } else {
-      resultText.innerText = "draw";
+      resultText.innerText = "It's a draw!";
     }
-    resultWinnar.classList.toggle("hidden");
+    resultWinner.classList.toggle("hidden");
     resultsDiv.classList.toggle("show-winner");
 
     playAgainBtn.classList.remove("hidden");
@@ -99,8 +89,7 @@ function isWinner(results) {
   return results[0].beats === results[1].name;
 }
 
-// play again
-
+// Play again logic
 playAgainBtn.addEventListener("click", () => {
   playAgainBtn.classList.add("hidden");
 
@@ -113,18 +102,22 @@ playAgainBtn.addEventListener("click", () => {
   });
 
   resultText.innerText = "";
-  resultWinnar.classList.toggle("hidden");
+  resultWinner.classList.toggle("hidden");
   resultsDiv.classList.toggle("show-winner");
 });
 
-//keep score
-
-function keepScore(point) {
-  score += point;
-  scoreNumber.innerText = score;
+// Keep score
+function keepScore(winner, point) {
+  if (winner === "user") {
+    scoreUser += point;
+    scoreUserNumber.innerText = scoreUser;
+  } else if (winner === "computer") {
+    scoreComputer += point;
+    scoreComputerNumber.innerText = scoreComputer;
+  }
 }
 
-// show/hide rules
+// Show/hide rules
 btnRules.addEventListener("click", () => {
   modalRules.classList.toggle("show-modal");
 });
